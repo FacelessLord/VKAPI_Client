@@ -16,8 +16,12 @@ access_token = f'access_token={access["access_token"]}&v={access["APIv"]}'
 
 
 def get_user(idf: str) -> dict:
-    return request('GET', method_base + f'users.get?user_ids={idf}&{access_token}').json()
+    return request('GET',
+                   method_base + f'users.get?user_ids={idf}&{access_token}').json()
 
 
-def get_friends(idf: int) -> dict:
-    return request('GET', method_base + f'friends.get?user_id={idf}&{access_token}&fields=nickname').json()
+def get_friends(idf: int, count: int = -1) -> dict:
+    count_arg = f'&count={count}' if count != -1 else ''
+    return request('GET',
+                   method_base + f'friends.get?user_id={idf}&{access_token}'
+                                 f'&fields=nickname{count_arg}').json()
